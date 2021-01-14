@@ -32,8 +32,23 @@ final class ScannerVC: UIViewController {
         self.scannerDelegate = scannerDelegate
     }
     
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+    required init?(coder: NSCoder) { fatalError("init(coder:) has not been implemented")}
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        setupCaptureSession()
+        
+        guard let previewLayer = previewLayer else {
+            scannerDelegate?.didSurface(error: .invalidDeviceInput)
+            return
+        }
+        
+        previewLayer.frame = view.layer.bounds
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
     }
     
     private func setupCaptureSession() {
